@@ -2,6 +2,8 @@ ARG TAG="znc-1.7.5"
 ARG PATH_ZNC_HOME="/home/znc"
 ARG UID="1001"
 
+LABEL maintainer="elroncio@gmx.ca"
+
 # In this stage we will make a build of znc
 FROM ubi8/ubi-minimal AS build-stage
 RUN microdnf update && microdnf install make
