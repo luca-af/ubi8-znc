@@ -1,7 +1,7 @@
 ARG TAG="znc-1.7.5"
 
 # In this stage we will make a build of znc
-FROM ubi8/ubi-minimal AS build-stage
+FROM registry.access.redhat.com/ubi8/ubi-minimal AS build-stage
 
 RUN microdnf update && microdnf install make
 RUN microdnf install gcc-c++ which pkg-config python3 tar gzip automake gcc cmake git
@@ -14,7 +14,7 @@ RUN git clone https://github.com/znc/znc.git && cd znc && git checkout tags/${TA
 ARG PATH_ZNC_HOME="/home/znc"
 ARG UID="1001"
 
-FROM ubi8/ubi-minimal
+FROM registry.access.redhat.com/ubi8/ubi-minimal  
 
 LABEL maintainer="elroncio@gmx.ca"
 
