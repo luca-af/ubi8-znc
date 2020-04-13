@@ -10,22 +10,24 @@ RUN git clone https://github.com/znc/znc.git && cd /znc && git fetch origin ${TA
 
 # Build the real container
 
-# Here is setted the path to znc home and the UID that it will run
-ARG PATH_ZNC_HOME="/home/znc"
-ARG UID="1001"
-
 FROM registry.access.redhat.com/ubi8/ubi-minimal  
 
 LABEL maintainer="elroncio@gmx.ca"
 
-RUN microdnf update && microdnf install make 
-RUN microdnf install findutils
+RUN microdnf update && microdnf install findutils
 COPY --from=build-stage /znc /znc
-RUN cd /znc/build && make clean && make install && mkdir -p ${PATH_ZNC_HOME}/configs && chown -R ${UID}:${UID} ${PATH_ZNC_HOME}
+ADD install.sh /znc/build/install.sh
+RUN cd /znc/build && ./install.sh
+
+ARG PATH_ZNC_HOME="/home/znc"
+ARG UID="1001"
+
+RUN mkdir -p ${PATH_ZNC_HOME}/.znc/
+RUN chown -R ${UID}:${UID} ${PATH_ZNC_HOME}
 
 # Do some cleanup
 
-RUN cd / && rm -rf /znc && microdnf remove make findutils
+RUN cd / && rm -rf /znc && microdnf remove findutils
 
 VOLUME ${PATH_ZNC_HOME}
 
