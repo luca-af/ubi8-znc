@@ -13,7 +13,7 @@ RUN git fetch origin $TAG && git checkout $TAG && git submodule update --init --
 FROM registry.access.redhat.com/ubi8/ubi-minimal  
 
 LABEL maintainer="Luca - <elroncio@gmx.ca>"
-LABEL RUN="podman run --name znc -p 127.0.0.1:6697:6697 -v zncVolume:/home/znc quay.io/elroncio/uni-znc"
+LABEL RUN="podman run --name znc -p 127.0.0.1:6697:6697 -v zncVolume:/home/znc quay.io/elroncio/ubi8-znc"
 
 RUN microdnf update && microdnf install findutils
 COPY --from=build-stage /znc /znc
