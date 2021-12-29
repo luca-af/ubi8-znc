@@ -15,7 +15,7 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal
 LABEL maintainer="Luca - <elroncio@gmx.ca>"
 LABEL RUN="podman run --name znc -p 127.0.0.1:6697:6697 -v zncVolume:/home/znc quay.io/elroncio/ubi8-znc"
 
-RUN microdnf update && microdnf install findutils
+RUN microdnf update && microdnf install findutils openssl
 COPY --from=build-stage /znc /znc
 ADD install.sh /znc/build/install.sh
 RUN cd /znc/build && ./install.sh
